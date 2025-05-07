@@ -1,0 +1,491 @@
+@import "tailwindcss";
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 250, 250, 250;
+  --background-end-rgb: 255, 255, 255;
+  --primary-color: #10b981;
+  --primary-light: #34d399;
+  --secondary-color: #047857;
+  --accent-color: #059669;
+  --text-color: #1f2937;
+  --light-text: #6b7280;
+  --lightest-grey: #f9fafb;
+  --light-grey: #f3f4f6;
+  --border-color: #e5e7eb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Don't use dark mode auto detection */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Keep light mode regardless of system preference */
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 250, 250, 250;
+    --background-end-rgb: 255, 255, 255;
+  }
+}
+
+body {
+  color: var(--text-color);
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom Gradient Text */
+.gradient-text {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600;
+}
+
+/* Book-related effects */
+.book-cover-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 2px 8px 10px rgba(0, 0, 0, 0.08), 0 0 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.book-cover-shadow:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 2px 12px 20px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+}
+
+/* Hide scrollbar but allow scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors;
+}
+
+.btn-accent {
+  @apply bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors;
+}
+
+/* Fix for Images */
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Ensure text is readable */
+p, h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+}
+
+.text-light {
+  color: var(--light-text);
+}
+
+/* Inverted text color for dark backgrounds */
+.bg-dark {
+  background-color: #1f2937;
+  color: white;
+}
+
+.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4, .bg-dark h5, .bg-dark p {
+  color: white;
+}
+
+/* Book page specific styles */
+.book-detail-container {
+  @apply container mx-auto px-4 py-8;
+}
+
+.book-detail-image {
+  @apply relative aspect-[3/4] w-full bg-gray-200 rounded-md overflow-hidden;
+}
+
+/* Book card - larger size */
+.book-card {
+  @apply bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-card-large {
+  height: 450px;
+}
+
+.book-card-image {
+  @apply relative overflow-hidden bg-gray-100;
+  height: 280px;
+}
+
+.book-card-content {
+  @apply p-4 flex flex-col flex-grow;
+}
+
+.book-card-title {
+  @apply font-semibold text-gray-800 mb-1 line-clamp-2;
+}
+
+.book-card-author {
+  @apply text-gray-600 text-sm mb-2;
+}
+
+.book-card-price {
+  @apply font-bold text-green-600 mt-auto;
+}
+
+/* Checkout and payment page specific styles */
+.payment-container {
+  @apply container mx-auto px-4 py-8 max-w-4xl;
+}
+
+.payment-form {
+  @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+}
+
+.input-field {
+  @apply w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 border-gray-300;
+}
+
+.input-field-error {
+  @apply border-red-500;
+}
+
+.error-message {
+  @apply mt-1 text-red-500 text-sm;
+}
+
+/* Payment method cards */
+.payment-method-card {
+  @apply p-4 border rounded-lg flex items-center justify-center gap-2 transition-colors;
+}
+
+.payment-method-selected {
+  @apply border-green-500 bg-green-50 text-green-600;
+}
+
+.payment-method-unselected {
+  @apply border-gray-200 hover:bg-gray-50;
+}
+
+/* Save card checkbox */
+.save-card-checkbox {
+  @apply mr-2 h-4 w-4 text-green-600 rounded border-gray-300 focus:ring-green-500;
+}
+
+/* Toast notifications */
+.Toastify__toast {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Fix for dark mode elements that might be showing incorrectly */
+.dark-mode-override {
+  color: var(--text-color) !important;
+  background-color: white !important;
+}
+
+/* Book list grid layout */
+.book-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
+}
+
+/* Fixes for form elements */
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+/* Highlight for focused elements */
+*:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+/* Helper for making content visible */
+.force-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force content to be visible - use this to fix disappearing content */
+.content-fix {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix for font loading issues */
+.font-fallback {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Fix for payments page layout */
+.payment-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .payment-layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Fix for card layouts */
+.card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden border border-gray-200;
+}
+
+.card-body {
+  @apply p-4;
+}
+
+.card-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.card-title {
+  @apply font-semibold text-lg;
+}
+
+/* Fix for buttons on hover */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for cart view */
+.cart-item {
+  @apply flex items-center py-4 border-b border-gray-200 last:border-0;
+}
+
+.cart-item-image {
+  @apply w-16 h-24 bg-gray-200 rounded overflow-hidden mr-4 flex-shrink-0;
+}
+
+/* Book placeholder */
+.book-placeholder {
+  @apply flex items-center justify-center w-full h-full bg-gray-200 text-gray-400;
+}
+
+/* Fix for layout issues */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Ensure proper spacing */
+.section {
+  margin-bottom: 2rem;
+}
+
+/* Fix for sticky elements */
+.sticky-top {
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
+/* Define styles for alerts */
+.alert {
+  @apply p-4 mb-4 rounded-md;
+}
+
+.alert-info {
+  @apply bg-blue-50 text-blue-700;
+}
+
+.alert-success {
+  @apply bg-green-50 text-green-700;
+}
+
+.alert-warning {
+  @apply bg-yellow-50 text-yellow-700;
+}
+
+.alert-error {
+  @apply bg-red-50 text-red-700;
+}
+
+/* Fix for responsive text */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  h2 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Ensure visible content in all cases */
+.ensure-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: var(--text-color) !important;
+}
+
+/* Special handling for payment page success UI */
+.payment-success {
+  @apply mt-6 p-4 bg-green-50 border border-green-100 rounded-lg flex items-start;
+}
+
+.payment-error {
+  @apply mt-6 p-4 bg-red-50 border border-red-100 rounded-lg flex items-start;
+}
+
+/* Make sure SVG icons are visible */
+svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Navbar styles */
+.navbar {
+  @apply bg-white shadow-md;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-container {
+  @apply container mx-auto px-4 flex items-center justify-between;
+  height: 80px;
+}
+
+.navbar-logo {
+  @apply flex items-center;
+}
+
+.navbar-logo img {
+  height: 48px;
+  width: auto;
+}
+
+.navbar-logo span {
+  @apply ml-2 text-2xl font-bold text-green-600;
+}
+
+.navbar-links {
+  @apply flex items-center gap-6;
+}
+
+.navbar-link {
+  @apply text-gray-700 hover:text-green-600 transition-colors;
+}
+
+.navbar-button {
+  @apply bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors;
+}
+
+/* 3D Animation Support */
+.perspective-600 {
+  perspective: 600px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Animation utility classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+  }
+}
+
+.magic-gradient {
+  background: linear-gradient(to right, #a855f7, #3b82f6);
+  background-size: 200% 200%;
+  animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
